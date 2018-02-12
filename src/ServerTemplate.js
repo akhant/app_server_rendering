@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+export default  (body) => `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -53,7 +53,7 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <div id="root"></div>
-   
+    <div id="root">${body}</div>
+    <script src="dist/app.js" ></script>
   </body>
-</html>
+</html>`
