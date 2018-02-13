@@ -22773,6 +22773,8 @@ var PreciewModal = exports.PreciewModal = function (_Component) {
           isOpen = _props.isOpen,
           close = _props.close;
 
+      var previewLink = selectedPic.pic + '?fit=crop&w=1920&h=1080';
+      var downloadLink = 'https://unsplash.com' + selectedPic.link.replace('/?photo=', '/photos/') + '/download?force=true';
 
       var modalClass = isOpen ? 'show' : '';
       return _react2.default.createElement(
@@ -22785,10 +22787,10 @@ var PreciewModal = exports.PreciewModal = function (_Component) {
         ),
         _react2.default.createElement(
           'div',
-          { className: 'preview-modal-inner', style: { backgroundImage: 'url(' + selectedPic.pic + ')' } },
+          { className: 'preview-modal-inner', style: { backgroundImage: 'url(' + previewLink + ')' } },
           _react2.default.createElement(
             'a',
-            { className: 'btn download-btn', href: '#' },
+            { className: 'btn download-btn', href: downloadLink },
             'Download'
           )
         )

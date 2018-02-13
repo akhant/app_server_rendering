@@ -84,6 +84,12 @@ export default  (body) => `<!DOCTYPE html>
       cursor: pointer;
   }
 
+  .download-btn {
+      position: absolute;
+      top: 20px; 
+      right: 20px;
+  }
+
     </style>
     <title>React App</title>
   </head>
