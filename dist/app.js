@@ -22602,6 +22602,10 @@ var _UnsplashData = __webpack_require__("./src/UnsplashData.js");
 
 var _UnsplashData2 = _interopRequireDefault(_UnsplashData);
 
+var _PreviewModal = __webpack_require__("./src/components/PreviewModal.js");
+
+var _PreviewModal2 = _interopRequireDefault(_PreviewModal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22626,10 +22630,29 @@ var Gallery = exports.Gallery = function (_Component) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Gallery.__proto__ || Object.getPrototypeOf(Gallery)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       paginator: 1,
-      itemsPerPage: 8
+      itemsPerPage: 8,
+      modalIsOpen: false,
+      selectedPicture: {
+        pic: '',
+        link: ''
+      }
     }, _this.loadMore = function () {
       _this.setState({
         paginator: _this.state.paginator + 1
+      });
+    }, _this.openPreviewModal = function (pic, link) {
+      _this.setState({
+        modalIsOpen: true,
+        selectedPicture: {
+          pic: pic, link: link
+        }
+      });
+    }, _this.closePreviewModal = function () {
+      _this.setState({
+        modalIsOpen: false,
+        selectedPicture: {
+          pic: '', link: ''
+        }
       });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -22637,23 +22660,27 @@ var Gallery = exports.Gallery = function (_Component) {
   _createClass(Gallery, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _state = this.state,
           paginator = _state.paginator,
-          itemsPerPage = _state.itemsPerPage;
+          itemsPerPage = _state.itemsPerPage,
+          modalIsOpen = _state.modalIsOpen,
+          selectedPicture = _state.selectedPicture;
 
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           'h1',
-          null,
+          { style: { textAlign: "center", margin: 80, fontSize: 50 } },
           'Gallery'
         ),
         _react2.default.createElement(
           'div',
           { className: 'container' },
           _UnsplashData2.default.slice(0, paginator * itemsPerPage).map(function (item) {
-            return _react2.default.createElement(_PicItem2.default, _extends({ key: item.link }, item));
+            return _react2.default.createElement(_PicItem2.default, _extends({ selectPic: _this2.openPreviewModal, key: item.link }, item));
           })
         ),
         _react2.default.createElement(
@@ -22664,7 +22691,8 @@ var Gallery = exports.Gallery = function (_Component) {
             { onClick: this.loadMore, href: '#more', className: 'btn load-more' },
             'Load more...'
           )
-        )
+        ),
+        _react2.default.createElement(_PreviewModal2.default, { selectedPic: selectedPicture, isOpen: modalIsOpen, close: this.closePreviewModal })
       );
     }
   }]);
@@ -22693,9 +22721,85 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PicItem = function PicItem(props) {
-  return _react2.default.createElement("div", { className: "item", style: { backgroundImage: "url(" + props.pic + "?auto=compress,format&fit=crop&w=300&h=250&q=80)" } });
+
+  return _react2.default.createElement("div", { className: "item", onClick: function onClick() {
+      console.log(props);
+      props.selectPic(props.pic, props.link);
+    }, style: { backgroundImage: "url(" + props.pic + "?auto=compress,format&fit=crop&w=300&h=250&q=80)" } });
 };
 exports.default = PicItem;
+
+/***/ }),
+
+/***/ "./src/components/PreviewModal.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PreciewModal = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PreciewModal = exports.PreciewModal = function (_Component) {
+  _inherits(PreciewModal, _Component);
+
+  function PreciewModal() {
+    _classCallCheck(this, PreciewModal);
+
+    return _possibleConstructorReturn(this, (PreciewModal.__proto__ || Object.getPrototypeOf(PreciewModal)).apply(this, arguments));
+  }
+
+  _createClass(PreciewModal, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          selectedPic = _props.selectedPic,
+          isOpen = _props.isOpen,
+          close = _props.close;
+
+
+      var modalClass = isOpen ? 'show' : '';
+      return _react2.default.createElement(
+        'div',
+        { className: 'preview-modal ' + modalClass },
+        _react2.default.createElement(
+          'span',
+          { onClick: close, className: 'close-icon' },
+          '\xD7'
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'preview-modal-inner', style: { backgroundImage: 'url(' + selectedPic.pic + ')' } },
+          _react2.default.createElement(
+            'a',
+            { className: 'btn download-btn', href: '#' },
+            'Download'
+          )
+        )
+      );
+    }
+  }]);
+
+  return PreciewModal;
+}(_react.Component);
+
+exports.default = PreciewModal;
 
 /***/ }),
 

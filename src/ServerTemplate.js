@@ -45,6 +45,44 @@ export default  (body) => `<!DOCTYPE html>
   text-align: center;
   margin: 100px auto;
 }
+.preview-modal {
+    display: none;
+  }
+  
+  .show {
+    display: block;
+  }
+  
+  .preview-modal::before {
+    content: '';
+    position: fixed;
+    top: -5555px;
+    left: -5555px;
+    bottom: -5555px;
+    right: -5555px;
+    background-color: #999;
+    opacity: 0.5;
+  }
+
+  .preview-modal-inner {
+      width: 70%;
+      height: 70%;
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      background-color: #999;
+      z-index: 10;
+      background-size: cover;
+
+  }
+  .close-icon {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      z-index: 10;
+      font-size: 50px;
+      cursor: pointer;
+  }
 
     </style>
     <title>React App</title>
